@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acumenink - Academic Writing Help & Freelance Training</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Include Bootstrap for responsive design and pre-designed components -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Include Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    {% block extra_head %}{% endblock %}
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #34495e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--dark-color);
+            background-color: var(--light-color);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+        }
+        .hover-scale {
+            transition: transform 0.3s ease;
+        }
+        .hover-scale:hover {
+            transform: scale(1.05);
+        }
+        main {
+            flex: 1 0 auto;
+        }
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 20px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+        .nav-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px;
+  height: 100%;
+  background-color: var(--light-color);
+  color: #1316e6;
+  display: none;
+  padding-top: 60px;
+  z-index: 1000;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+}
+
+.nav-bar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.nav-bar ul li {
+  padding: 15px;
+  text-align: center;
+}
+
+.nav-bar ul li a {
+            color: rgb(51, 10, 235);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+}
+
+.nav-bar ul li a:hover {
+  background: var(--primary-color);
+}
+
+.nav-bar .closebtn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 24px;
+  cursor: pointer;
+  background-color: #e74c3c;
+  padding: 10px;
+  border: solid;
+  border-radius: 50%;
+}
+       
+        #messages-container {
+            margin-bottom: 2rem;
+        }
+        .messages {
+            list-style: none;
+            padding: 0;
+        }
+        .message {
+            padding: 1rem 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        .message:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+        }
+        .message.success {
+            background-color: #d1fae5;
+            color: #065f46;
+            border-left: 5px solid #34d399;
+        }
+        .message.error {
+            background-color: #fee2e2;
+            color: #991b1b;
+            border-left: 5px solid #f87171;
+        }
+        .message.warning {
+            background-color: #fef3c7;
+            color: #92400e;
+            border-left: 5px solid #fbbf24;
+        }
+        .message.info {
+            background-color: #e0f2fe;
+            color: #075985;
+            border-left: 5px solid #38bdf8;
+        }
+        .message-icon {
+            margin-right: 1rem;
+            font-size: 1.25rem;
+        }
+        .message-content {
+            flex-grow: 1;
+        }
+        .message-close {
+            cursor: pointer;
+            font-size: 1.25rem;
+            opacity: 0.7;
+            transition: opacity 0.2s ease;
+        }
+        .message-close:hover {
+            opacity: 1;
+        }
+        @keyframes slideInDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+
+
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+        }
+        #menu-button{
+                display: none;
+            }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+            #menu-button{
+                display: block;
+            }
+        
+        }
+      
+    
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900 flex flex-col min-h-screen">
+     <header>
+        <nav class="container">
+            <div class="logo">Acumenink</div>
+            <ul class="nav-links">
+                <li><a href="{% url 'users:home' %}">Home</a></li>
+                <li><a href="{% url 'courses:login' %}">Login</a></li>
+                <li><a href="{% url 'courses:course_list' %}">Courses</a></li>
+                <li><a href="{% url 'users:about' %}">About</a></li>
+                <li><a href="{% url 'users:contact' %}">Contact</a></li>
+                <li><a href="#jobs">Jobs</a></li>
+            </ul>
+            <button class="md:hidden text-gray-700 focus:outline-none" id="menu-button">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </nav>
+    </header>
+
+    <!--mobile view navigation-->
+    <div class="nav-bar" id="navi">
+        <a href="javascript:void(0)" class="closebtn" id="closeBtn">&times;</a>
+        <ul>
+            <li><a href="{% url 'courses:course_list' %}" class="block p-3 text-gray-700 hover:bg-blue-50 rounded-lg transition duration-300 ease-in-out hover-scale">Courses</a></li>
+            <li><a href="{% url 'dashboard' %}" class="block p-3 text-gray-700 hover:bg-blue-50 rounded-lg transition duration-300 ease-in-out hover-scale">Dashboard</a></li>
+            <li><a href="{% url 'payment_history' %}" class="block p-3 text-gray-700 hover:bg-blue-50 rounded-lg transition duration-300 ease-in-out hover-scale">Payment History</a></li>
+            <li><a href="{% url 'courses:logout' %}" class="block p-3 text-gray-700 hover:bg-blue-50 rounded-lg transition duration-300 ease-in-out hover-scale">Logout</a></li>                <li><a href="{% url 'courses:signup' %}" class="block p-3 text-gray-700 hover:bg-blue-50 rounded-lg transition duration-300 ease-in-out hover-scale">Sign Up</a></li>
+            <li><a href="{% url 'users:home' %}" class="block p-3 text-gray-700 hover:bg-blue-50 rounded-lg transition duration-300 ease-in-out hover-scale">Home</a></li>
+        </ul>
+      </div>
+    <div class="flex flex-1">
+        
+        <main class="flex-grow p-6 md:p-8">
+            {% block content %}
+            {% endblock %}
+        
+            <!-- Your site-wide JavaScript here -->
+            
+            {% block extra_js %}
+            {% endblock %}
+        </main>
+    </div>
+    <footer class="bg-gray-800 text-white py-6">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2024 WriteWise Hub. All rights reserved.</p>
+        </div>
+    </footer>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+     <script>
+       const bt = document.getElementById("menu-button");
+      const navi = document.getElementById("navi");
+      const closeBtn = document.getElementById("closeBtn");
+      
+      bt.onclick = function() {
+        navi.style.display = 'block';
+      };
+      
+      closeBtn.onclick = function() {
+        navi.style.display = 'none';
+      };
+    </script>
+</body>
+</html>

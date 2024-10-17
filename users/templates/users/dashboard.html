@@ -1,0 +1,48 @@
+{% extends "courses/base_generic.html" %}
+
+{% block title %}Dashboard - {{ user.username }}{% endblock %}
+{% block content %}
+<div class="bg-gray-100 min-h-screen">
+    <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        <div class="px-4 py-6 sm:px-0">
+            <h1 class="text-3xl font-bold text-gray-900 mb-6">Welcome, {{ user.username }}!</h1>
+            
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+                <div class="p-6">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-4">Your Enrollments</h2>
+                    {% if enrollments %}
+                        <ul class="space-y-3">
+                            {% for enrollment in enrollments %}
+                                <li class="flex items-center bg-gray-50 rounded-lg p-4 transition duration-300 ease-in-out hover:bg-gray-100">
+                                    <span class="text-blue-600 mr-4">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                                        </svg>
+                                    </span>
+                                    <div>
+                                        <a href="{% url 'courses:user_courses' %}" class="text-lg font-medium text-gray-900 hover:text-blue-600">{{ enrollment.course.title }}</a>
+                                        <p class="text-sm text-gray-500">Enrolled on: {{ enrollment.enrolled_at|date:"F d, Y" }}</p>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <div class="text-center py-8">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                            </svg>
+                            <h3 class="mt-2 text-sm font-medium text-gray-900">No courses enrolled</h3>
+                            <p class="mt-1 text-sm text-gray-500">Get started by enrolling in a course.</p>
+                            <div class="mt-6">
+                                <a href="{% url 'courses:course_list' %}" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                    Browse Courses
+                                </a>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+{% endblock %}

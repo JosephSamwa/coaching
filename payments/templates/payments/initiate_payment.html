@@ -1,0 +1,167 @@
+{% load widget_tweaks %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Initiate Payment - {{ course.title }}</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f0f4f8;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        #messages-container {
+            margin-bottom: 2rem;
+        }
+        .messages {
+            list-style: none;
+            padding: 0;
+        }
+        .message {
+            padding: 1rem 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        .message:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+        }
+        .message.success {
+            background-color: #d1fae5;
+            color: #065f46;
+            border-left: 5px solid #34d399;
+        }
+        .message.error {
+            background-color: #fee2e2;
+            color: #991b1b;
+            border-left: 5px solid #f87171;
+        }
+        .message.warning {
+            background-color: #fef3c7;
+            color: #92400e;
+            border-left: 5px solid #fbbf24;
+        }
+        .message.info {
+            background-color: #e0f2fe;
+            color: #075985;
+            border-left: 5px solid #38bdf8;
+        }
+        .message-icon {
+            margin-right: 1rem;
+            font-size: 1.25rem;
+        }
+        .message-content {
+            flex-grow: 1;
+        }
+        .message-close {
+            cursor: pointer;
+            font-size: 1.25rem;
+            opacity: 0.7;
+            transition: opacity 0.2s ease;
+        }
+        .message-close:hover {
+            opacity: 1;
+        }
+        .BB{
+            display: flex;
+            justify-content: space-between;
+        }
+        @keyframes slideInDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="messages-container">
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li class="message {{ message.tags }}" style="animation: slideInDown 0.5s ease-out;">
+                    <span class="message-icon">
+                        {% if message.tags == 'success' %}✅
+                        {% elif message.tags == 'error' %}❌
+                        {% elif message.tags == 'warning' %}⚠️
+                        {% else %}ℹ️{% endif %}
+                    </span>
+                    <span class="message-content">{{ message }}</span>
+                    <span class="message-close" onclick="this.parentElement.style.animation='fadeOut 0.5s forwards';">&times;</span>
+                </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+        <div class="BB">
+        <h2 class="text-3xl font-bold text-gray-800 mb-6">Initiate Payment</h2>
+        <a href="{% url 'courses:course_list' %}" class="block p-3 text-gray-700 hover:bg-blue-50 rounded-lg transition duration-300 ease-in-out hover-scale">Back to Courses</a>
+        </div>
+        <h3 class="text-xl font-semibold text-gray-700 mb-4">Course: {{ course.title }}</h3>
+        
+        <form method="post" class="space-y-6">
+            {% csrf_token %}
+            
+            <div class="space-y-2">
+                <label for="{{ form.amount.id_for_label }}" class="block text-sm font-medium text-gray-700">Amount</label>
+                {{ form.amount|add_class:"mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" }}
+            </div>
+            
+            <div class="space-y-2">
+                <label for="{{ form.phone_number.id_for_label }}" class="block text-sm font-medium text-gray-700">Phone Number</label>
+                {{ form.phone_number|add_class:"mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" }}
+            </div>
+            
+            <div class="space-y-2">
+                <label for="{{ form.mpesa_message.id_for_label }}" class="block text-sm font-medium text-gray-700">M-Pesa Message</label>
+                {{ form.mpesa_message|add_class:"mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" }}
+            </div>
+            
+            <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                Submit Payment
+            </button>
+        </form>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const messagesContainer = document.getElementById('messages-container');
+        if (messagesContainer.querySelector('.messages')) {
+            setTimeout(function() {
+                const messages = messagesContainer.querySelectorAll('.message');
+                messages.forEach(message => {
+                    message.style.animation = 'fadeOut 0.5s forwards';
+                });
+                setTimeout(() => {
+                    messagesContainer.innerHTML = '';
+                }, 500);
+            }, 5000);
+        }
+    });
+    </script>
+</body>
+</html>

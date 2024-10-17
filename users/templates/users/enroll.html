@@ -1,0 +1,22 @@
+{% extends "courses/base_generic.html" %}
+
+{% block content %}
+  <h1>Enroll in {{ course.title }}</h1>
+  
+  {% if error %}
+    <div class="alert alert-danger" role="alert">
+      {{ error }}
+    </div>
+  {% endif %}
+  
+  <form action="{% url 'enroll' course.id %}" method="post" id="payment-form">
+    {% csrf_token %}
+    <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+            data-key="{{ stripe_publishable_key }}"
+            data-amount="{{ course.price|floatformat:0 }}"
+            data-name="{{ course.title }}"
+            data-description="Course Enrollment"
+            data-currency="usd">
+    </script>
+  </form>
+{% endblock %}

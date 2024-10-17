@@ -1,0 +1,13 @@
+{% extends "courses/base_generic.html" %}
+
+{% block content %}
+  <p>Course ID: {{ course_id }}</p>
+  <h1>{{ course.title }}</h1>
+  <p>{{ course.description }}</p>
+  <p>Price: ${{ course.price }}</p>
+  <p>Students Enrolled: {{ course.students_enrolled }}</p>
+  <form method="post" action="{% url 'enroll' course.id %}">
+    {% csrf_token %}
+    <button type="submit">Enroll</button>
+  </form>
+{% endblock %}

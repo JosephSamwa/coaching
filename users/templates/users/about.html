@@ -1,0 +1,83 @@
+{% extends "courses/base_generic.html" %}
+
+{% block title %}About Us - My Website{% endblock %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+        color: #333;
+    }
+
+    .container {
+        width: 80%;
+        margin: auto;
+        overflow: hidden;
+        padding: 20px;
+        background: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+        color: #333;
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 2.5em;
+    }
+
+    h2 {
+        color: #444;
+        margin-top: 20px;
+        font-size: 1.8em;
+    }
+
+    p {
+        font-size: 1.1em;
+        margin-bottom: 20px;
+    }
+
+    @media (max-width: 768px) {
+        .container {
+            width: 95%;
+        }
+
+        h1 {
+            font-size: 2em;
+        }
+
+        h2 {
+            font-size: 1.5em;
+        }
+
+        p {
+            font-size: 1em;
+        }
+    }
+</style>
+{% block content %}
+<h1>About Us</h1>
+
+    <h1 style="font-weight: bolder;text-align: center;font-size: larger;">Frequently Asked Questions</h1>
+    
+    <h2 style="color: rgb(22, 216, 103);"> What is WriteWiseHub?</h2>
+    <p>WriteWiseHub is an online school dedicated to helping freelancers improve their skills while still offering a substantial income.</p> 
+    <p>We offer expert guidance, skill development workshops, and professional growth opportunities.</p>
+    <br>
+    <h2 style="color: rgb(22, 216, 103);">Who can benefit from WriteWiseHub?</h2>
+    <p>Our programs are designed for students, researchers, and professionals looking to enhance their freelance skills. </p> 
+    <p>We welcome people from all walks of life and most importantly those interested in boosting their income through part-time jobs.</p>
+    <br>
+    <h2 style="color: rgb(22, 216, 103);">What types of courses do you offer?</h2>
+    <p>We offer transcription courses, article/blog writing, academic writing, data entry among many others that will ensure a steady flow of income.</p>
+    <br>
+    <h2 style="color: rgb(22, 216, 103);">Are the courses self-paced or scheduled?</h2>
+    <p>We offer both self-paced and scheduled courses to accommodate different learning preferences and time constraints.</p>
+    <br>
+    <h2 style="color: rgb(22, 216, 103);">Do you provide personalized feedback on writing assignments?</h2>
+    <p>Yes, many of our courses include personalized feedback from experienced academic writers to help you improve your skills.</p>
+    <br>
+    <h2 style="color: rgb(22, 216, 103);">How long does it take to complete a course?</h2>
+    <p>Course duration varies depending on the complexity and depth of the subject matter. Most courses range from 4 to 12 weeks.</p>
+{% endblock %}

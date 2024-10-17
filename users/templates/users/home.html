@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acumenink - Academic Writing Help & Freelance Training</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Include Bootstrap for responsive design and pre-designed components -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Include Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #34495e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--dark-color);
+            background-color: var(--light-color);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 20px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+        .nav-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px;
+  height: 100%;
+  background-color: var(--light-color);
+  color: #1316e6;
+  display: none;
+  padding-top: 60px;
+  z-index: 1000;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+}
+
+.nav-bar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.nav-bar ul li {
+  padding: 15px;
+  text-align: center;
+}
+
+.nav-bar ul li a {
+            color: rgb(51, 10, 235);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+}
+
+.nav-bar ul li a:hover {
+  background: var(--primary-color);
+}
+
+.nav-bar .closebtn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 24px;
+  cursor: pointer;
+  background-color: #e74c3c;
+  padding: 10px;
+  border: solid;
+  border-radius: 50%;
+}
+
+        .hero {
+            background-image: linear-gradient(rgba(52, 152, 219, 0.8), rgba(52, 152, 219, 0.8)), url('/api/placeholder/1200/800');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 100px 0;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #c0392b;
+        }
+
+        .services {
+            padding: 80px 0;
+        }
+
+        .services h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+        }
+        
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .service-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+        }
+        #menu-button{
+                display: none;
+            }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+            #menu-button{
+                display: block;
+            }
+        
+        }
+      
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">Acumenink</div>
+            <ul class="nav-links">
+                <li><a href="{% url 'users:home' %}">Home</a></li>
+                <li><a href="{% url 'courses:login' %}">Login</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="{% url 'users:about' %}">About</a></li>
+                <li><a href="{% url 'users:contact' %}">Contact</a></li>
+                <li><button class="btn"><a href="{% url 'courses:signup' %}">Register</a></button></li>
+            </ul>
+            <button class="md:hidden text-gray-700 focus:outline-none" id="menu-button">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </nav>
+    </header>
+    <!--mobile view navigation-->
+    <div class="nav-bar" id="navi">
+        <a href="javascript:void(0)" class="closebtn" id="closeBtn">&times;</a>
+        <ul>
+            <li><a href="{% url 'users:home' %}">Home</a></li>
+            <li><a href="{% url 'courses:login' %}">Login</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="{% url 'users:about' %}">About</a></li>
+            <li><a href="{% url 'users:contact' %}">Contact</a></li>
+        </ul>
+      </div>
+
+    <section class="hero" id="home">
+        <div class="container">
+            <h1>Your Gateway to Academic Excellence and Freelance Success</h1>
+            <p>At Acumenink, we empower individuals with the skills and knowledge needed to excel in the competitive world of freelancing and academic writing.</p>
+            <a href="{% url 'courses:signup' %}" class="btn">SIGN-UP</a>
+        </div>
+    </section>
+
+    
+    <section class="services" id="services">
+        <div class="container">
+            <h2>Our Services</h2>
+            <div class="service-grid">
+                <div class="service-card">
+                    <i class="fas fa-pen-nib service-icon"></i>
+                    <h3>Academic Writing Help</h3>
+                    <p>Receive expert guidance from seasoned academic writers. Enhance your writing skills and achieve academic success with our tailored support.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-laptop-code service-icon"></i>
+                    <h3>Freelance Training</h3>
+                    <p>Join our comprehensive training programs in academic writing, transcription, article writing, and blogging. Learn from the best and start your freelance career with confidence.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-users service-icon"></i>
+                    <h3>Community Support</h3>
+                    <p>Become part of a vibrant community of freelancers. Share experiences, gain insights, and grow together in a supportive environment.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-chart-line service-icon"></i>
+                    <h3>Professional Growth</h3>
+                    <p>Accelerate your career with our tailored professional development programs. Gain the skills and knowledge needed to stand out in the competitive freelance market.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-keyboard service-icon"></i>
+                    <h3>Data Entry & Transcription</h3>
+                    <p>Master the art of accurate data entry and efficient transcription. Our training programs will equip you with the skills to excel in these high-demand freelance niches.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-pencil-alt service-icon"></i>
+                    <h3>Blog & Article Writing</h3>
+                    <p>Develop your content creation skills with our specialized writing courses. Learn how to craft engaging blog posts and informative articles that captivate readers and clients alike.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Acumenink. All rights reserved.</p>
+        </div>
+    </footer>
+     <!-- Include Bootstrap's JavaScript -->
+     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+     <script>
+       const bt = document.getElementById("menu-button");
+      const navi = document.getElementById("navi");
+      const closeBtn = document.getElementById("closeBtn");
+      
+      bt.onclick = function() {
+        navi.style.display = 'block';
+      };
+      
+      closeBtn.onclick = function() {
+        navi.style.display = 'none';
+      };
+    </script>
+</body>
+</html>

@@ -1,0 +1,203 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Courses</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <style>
+        .section {
+            border: 1px solid #e2e8f0;
+            margin-bottom: 1rem;
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+        .section-header {
+            background-color: #edf2f7;
+            padding: 1rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+        .section-content {
+            display: none;
+            padding: 1rem;
+        }
+        .lesson {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .lesson:last-child {
+            border-bottom: none;
+        }
+        .lesson-icon {
+            margin-right: 1rem;
+            font-size: 1.25rem;
+        }
+        .lesson-title {
+            flex-grow: 1;
+        }
+        .lesson-duration {
+            color: #718096;
+            font-size: 0.875rem;
+        }
+        .lesson-content {
+            display: none;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .course-card {
+            border: 1px solid #e2e8f0;
+            margin-bottom: 1rem;
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+        .course-header {
+            background-color: #edf2f7;
+            padding: 1rem;
+            font-weight: 600;
+        }
+        .course-content {
+            padding: 1rem;
+        }
+        .progress-bar {
+            background-color: #e2e8f0;
+            height: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            background-color: #4299e1;
+            height: 100%;
+        }
+        .back {
+            display:flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <div class="back">
+            <h1 class="text-4xl font-bold mb-8 text-indigo-700">My Courses</h1>
+            <a href="{% url 'dashboard' %}"  class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition duration-300">Dashboard</a>
+        </div>
+        {% for course_data in courses_data %}
+    <div class="course-card bg-white shadow-md">
+        <div class="course-header">
+            <h2 class="text-2xl font-bold text-indigo-700">{{ course_data.course.title }}</h2>
+        </div>
+        <div class="course-content">
+            <div class="mb-4">
+                <h3 class="text-lg font-semibold mb-2">Progress: {{ course_data.progress }}%</h3>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: {{ course_data.progress }}%;"></div>
+                </div>
+            </div>
+            <p class="mb-2">Completed lessons: {{ course_data.completed_lessons }} / {{ course_data.total_lessons }}</p>
+            {% if course_data.next_lesson %}
+                <p class="mb-4">Next lesson:
+                    <a href="{% url 'lesson_view' course_data.next_lesson.id %}" class="text-blue-600 hover:underline">
+                        {{ course_data.next_lesson.title }}
+                    </a>
+                </p>
+            {% else %}
+                <p class="mb-4 text-green-600 font-semibold">Course completed!</p>
+            {% endif %}
+        </div>
+    </div>
+        </div>
+    </div>
+
+                    <a href="{% url 'lesson_view' course_data.course.id %}" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition duration-300" style="margin-left: auto;">Go to Course</a>
+                </div>
+                
+                <div class="mb-8">
+                    <div class="flex border-b border-gray-300">
+                        <button class="px-4 py-2 font-semibold text-indigo-600 focus:outline-none" data-tab="content-{{ forloop.counter }}">
+                            Course Content
+                        </button>
+                        <button class="px-4 py-2 font-semibold text-gray-500 focus:outline-none" data-tab="resources-{{ forloop.counter }}">
+                            Additional Resources
+                        </button>
+                    </div>
+                </div>
+        
+                <div id="content-{{ forloop.counter }}" class="tab-content">
+                    {% for section in course_data.course.sections.all %}
+                        <div class="section">
+                            <div class="section-header">
+                                <span>{{ section.title }}</span>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="section-content">
+                                {% for lesson in section.lessons.all %}
+                                    <div class="lesson">
+                                        <span class="lesson-icon">{% if lesson.type == 'video' %}🎥{% else %}📄{% endif %}</span>
+                                        <span class="lesson-title">{{ lesson.title }}</span>
+                                        <span class="lesson-duration">{% if lesson.type == 'video' %} Video duration:{{ lesson.duration|default:lesson.video_duration }} Mins.{% else %}Approximate read-time:{{ lesson.duration|default:lesson.article_read_time }} Mins.{% endif %}</span>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                
+                <div id="resources-{{ forloop.counter }}" class="tab-content hidden">
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h3 class="text-2xl font-semibold mb-4 text-indigo-700">Additional Resources</h3>
+                        <ul class="space-y-2">
+                            <li>Course slides (PDF)</li>
+                            <li>Code samples repository (GitHub)</li>
+                            <li>Recommended reading list</li>
+                            <li>Community forum</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p class="text-xl text-gray-600">You are not enrolled in any courses yet.</p>
+        {% endfor %}
+    </div>
+</body>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const tabs = document.querySelectorAll('[data-tab]');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabId = tab.getAttribute('data-tab');
+                const courseCard = tab.closest('.course-card');
+                const courseTabs = courseCard.querySelectorAll('[data-tab]');
+                const courseTabContents = courseCard.querySelectorAll('.tab-content');
+
+                courseTabs.forEach(t => {
+                    t.classList.remove('text-indigo-600', 'border-b-2', 'border-indigo-600');
+                    t.classList.add('text-gray-500');
+                });
+                courseTabContents.forEach(content => content.classList.add('hidden'));
+                tab.classList.remove('text-gray-500');
+                tab.classList.add('text-indigo-600', 'border-b-2', 'border-indigo-600');
+                courseCard.querySelector(`#${tabId}`).classList.remove('hidden');
+            });
+        });
+
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('.section-header')) {
+                const header = e.target.closest('.section-header');
+                const content = header.nextElementSibling;
+                const toggleIcon = header.querySelector('.toggle-icon');
+                content.style.display = content.style.display === 'block' ? 'none' : 'block';
+                toggleIcon.textContent = content.style.display === 'block' ? '▲' : '▼';
+            }
+        });
+    });
+</script>
+</html>

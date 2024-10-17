@@ -1,0 +1,144 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ lesson.title }} - {{ course.title }}</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <style>
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+        .video-container iframe,
+        .video-container video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .button-hover {
+            background-color: #008CBA;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+        .button-hover:hover {
+            background-color: #005f73;
+        }
+        .progress-bar {
+            background-color: #e2e8f0;
+            height: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            background-color: #4299e1;
+            height: 100%;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <h1 class="text-4xl font-bold mb-4 text-indigo-700">{{ course.title }}</h1>
+        <p class="text-lg text-gray-600 mb-4">{{ lesson.title }}</p>
+
+        <div class="mb-6">
+            <h2 class="text-2xl font-semibold mb-2">Course Progress</h2>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: {{ course_data.progress }}%;"></div>
+            </div>
+            <p class="mt-2 text-gray-600">{{ course_progress }}% complete</p>
+        
+            {% if user_progress %}
+            <h2 class="text-xl font-semibold mt-4 mb-2">Lesson Progress</h2>
+            <div class="border p-2 rounded">
+                <strong>Lesson:</strong> {{ user_progress.lesson.title }}<br>
+                <strong>Completed:</strong> {% if user_progress.completed %}Yes{% else %}No{% endif %}<br>
+                <strong>Last Accessed:</strong> {{ user_progress.last_accessed|date:"F d, Y H:i" }}
+            </div>
+            {% else %}
+            <p class="mt-4 text-gray-600">No progress to display.</p>
+            {% endif %}
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            {% if lesson.type == 'video' %}
+                <div class="video-container">
+                    {% if lesson.video_url %}
+                        <iframe src="{{ lesson.video_url }}" frameborder="0" allowfullscreen></iframe>
+                    {% elif lesson.video_file %}
+                        <video controls>
+                            <source src="{{ lesson.video_file.url }}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    {% else %}
+                        <p>Video not available</p>
+                    {% endif %}
+                </div>
+            {% else %}
+                <div class="prose max-w-none">
+                    {{ lesson.article_content|safe }}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="flex justify-between items-center">
+            <div>
+                {% if previous_lesson %}
+                    <a href="{% url 'lesson_view' previous_lesson.id %}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition duration-300">Previous Lesson</a>
+                {% endif %}
+            </div>
+            <div>
+                {% if not user_progress.completed %}
+                    <form method="post" action="{% url 'lesson_view' lesson.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="button-hover">Mark as Completed</button>
+                    </form>
+                {% else %}
+                    <p class="text-green-600 font-semibold">Lesson Completed!</p>
+                {% endif %}
+            </div>
+            <div>
+                {% if next_lesson %}
+                    <a href="{% url 'lesson_view' next_lesson.id %}" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition duration-300">Next Lesson</a>
+                {% else %}
+                <a  href="{% url 'courses:user_courses' %}" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition duration-300">My Courses</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    {% if messages %}
+        <div class="fixed bottom-0 right-0 m-6">
+            {% for message in messages %}
+                <div class="bg-green-500 text-white px-4 py-2 rounded shadow-lg mb-2">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <script>
+        // Auto-hide messages after 3 seconds
+        setTimeout(function() {
+            var messages = document.getElementsByClassName('bg-green-500');
+            for (var i = 0; i < messages.length; i++) {
+                messages[i].style.display = 'none';
+            }
+        }, 3000);
+    </script>
+</body>
+</html>

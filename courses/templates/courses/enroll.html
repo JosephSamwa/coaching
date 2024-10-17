@@ -1,0 +1,72 @@
+{% extends "courses/base_generic.html" %}
+{% load static %}
+
+{% block content %}
+<div class="bg-gray-100 min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-3xl mx-auto">
+        <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+            <div class="px-4 py-5 sm:p-6">
+                <h1 class="text-3xl font-extrabold text-gray-900 text-center mb-8">
+                    Enroll in {{ course.title }}
+                </h1>
+                
+                {% if error %}
+                    <div class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                        <span class="block sm:inline">{{ error }}</span>
+                    </div>
+                {% endif %}
+                
+                <div class="text-center mb-8">
+                    <p class="text-xl text-gray-600">Course Price: <span class="font-bold text-2xl text-green-600">${{ course.price|floatformat:2 }}</span></p>
+                </div>
+                
+                <div class="bg-gray-50 p-6 rounded-lg mb-6">
+                    <h2 class="text-lg font-medium text-gray-900 mb-4">What you'll get:</h2>
+                    <ul class="space-y-2">
+                        <li class="flex items-center">
+                            <svg class="h-5 w-5 text-green-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            Full access to course materials
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="h-5 w-5 text-green-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            Lifetime updates
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="h-5 w-5 text-green-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            Certificate of completion
+                        </li>
+                    </ul>
+                </div>
+                
+                <form action="{% url 'initiate_payment' course.id %}" method="post" id="payment-form" class="text-center">
+                    {% csrf_token %}
+                    <!-- Used to display form errors. -->
+                    <div id="card-errors" role="alert" class="text-red-600 mb-4"></div>
+                    <button id="submit-button" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        Pay ${{ course.price|floatformat:2 }} and Enroll
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+    body {
+        font-family: 'Inter', sans-serif;
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.tailwindcss.com"></script>
+{% endblock %}

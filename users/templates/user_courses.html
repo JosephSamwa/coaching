@@ -1,0 +1,69 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Courses</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <style>
+        .course-card {
+            border: 1px solid #e2e8f0;
+            margin-bottom: 1rem;
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+        .course-header {
+            background-color: #edf2f7;
+            padding: 1rem;
+            font-weight: 600;
+        }
+        .course-content {
+            padding: 1rem;
+        }
+        .progress-bar {
+            background-color: #e2e8f0;
+            height: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            background-color: #4299e1;
+            height: 100%;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <h1 class="text-4xl font-bold mb-8 text-indigo-700">My Courses</h1>
+        {% for course_data in courses_data %}
+            <div class="course-card bg-white shadow-md">
+                <div class="course-header">
+                    <h2 class="text-2xl font-bold text-indigo-700">{{ course_data.course.title }}</h2>
+                </div>
+                <div class="course-content">
+                    <div class="mb-4">
+                        <h3 class="text-lg font-semibold mb-2">Progress: {{ course_data.progress }}%</h3>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: {{ course_data.progress }}%;"></div>
+                        </div>
+                    </div>
+                    <p class="mb-2">Completed lessons: {{ course_data.completed_lessons }} / {{ course_data.total_lessons }}</p>
+                    {% if course_data.next_lesson %}
+                        <p class="mb-4">Next lesson:
+                            <a href="{% url 'lesson_view' course_data.next_lesson.id %}" class="text-blue-600 hover:underline">
+                                {{ course_data.next_lesson.title }}
+                            </a>
+                        </p>
+                    {% else %}
+                        <p class="mb-4 text-green-600 font-semibold">Course completed!</p>
+                    {% endif %}
+                    <a href="{% url 'lesson_view' course_data.course.id %}" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition duration-300">Go to Course</a>
+                </div>
+            </div>
+        {% empty %}
+            <p class="text-xl text-gray-600">You are not enrolled in any courses yet.</p>
+        {% endfor %}
+    </div>
+</body>
+</html>
